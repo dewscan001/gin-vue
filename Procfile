@@ -1,1 +1,1 @@
-web: go_webssembly
+web: goassembly
