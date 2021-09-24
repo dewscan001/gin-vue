@@ -1,1 +1,1 @@
-web: goassembly
+web: main.go
