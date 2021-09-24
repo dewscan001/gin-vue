@@ -44,6 +44,9 @@
                     </td>
                 </tr>
             </table>
+            <div style="width:500px; margin:auto; height:100px;">
+                <button @click="reset_board" v-if="board_over">Reset Board</button>
+            </div>
         </div>
         <script>
             const app = Vue.createApp({
@@ -55,7 +58,9 @@
                             ['', '', ''],
                         ],
                         turn : 'X',
-                        gameover : false
+                        gameover : false,
+                        have_value : 0,
+                        board_over : false
                     }
                 },
                 methods:{
@@ -63,8 +68,10 @@
                     //     this.turn = this.turn == 'X' ? 'O' : 'X' 
                     // },
                     manual_click(row, col){
-                        this.board[row][col] = this.turn
-                        this.check_game()
+                        if(this.board[row][col] == '' && this.turn == 'X'){
+                            this.board[row][col] = 'X'
+                            this.check_game()
+                        }
                     },
                     check_game(){
                         if (this.board[0][0] == this.board[0][1] && this.board[0][1] == this.board[0][2] && this.board[0][2] == this.board[0][0] && this.board[0][0] == this.turn) {
@@ -92,46 +99,45 @@
                             this.gameover = true
                         }
 
-                        let have_value = 0
-                        if(!this.gameover){
+                        if (!this.gameover) {
                             for (let i = 0; i < 3; i++) {
                                 for (let j = 0; j < 3; j++) {
                                     if (this.board[i][j]) {
-                                        have_value++
+                                        this.have_value++
                                     }
-                                    else{
-                                        have_value--
+                                    else {
+                                        this.have_value--
                                     }
                                 }
                             }
-                            if(have_value == 9){
-                                this.gameover = true
-                            }
-                        }
-
-                        if(this.gameover){
-                            if(have_value != 9){
-                                alert(this.turn+' WIN!!')
+                            if (this.have_value == 9) {
+                                alert('DRAW!!')
+                                this.turn = 'X'
+                                this.have_value = 0
+                                this.board_over = true
                             }
                             else{
-                                alert('DRAW!!')
+                                this.turn = this.turn == 'X' ? 'O' : 'X'
                             }
                         }
-                        else{
-                            this.turn = this.turn == 'X' ? 'O' : 'X'
-                        }
+                    },
+                    reset_board(){
+                        this.board = [
+                            ['', '', ''],
+                            ['', '', ''],
+                            ['', '', '']
+                        ]
+                        this.board_over = false
                     }
                 },
                 watch:{
                     gameover(){
                         if (this.gameover) {
-                            this.board = [
-                                ['', '', ''],
-                                ['', '', ''],
-                                ['', '', '']
-                            ]
+                            alert(this.turn + ' WIN!!')
                             this.turn = 'X'
                             this.gameover = false
+                            this.have_value = 0
+                            this.board_over = true
                         }
                     },
                     turn(){
@@ -146,8 +152,11 @@
                             }
                             index_random = random_temp[Math.floor(Math.random() * random_temp.length)]
                             this.board[index_random["x"]][index_random["y"]] = 'O'
-                            this.turn = 'X'
+                            this.check_game()
                         }
+                    },
+                    board_over() {
+                        this.reset_board()
                     }
                 }
             })

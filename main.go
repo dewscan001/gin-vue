@@ -14,5 +14,9 @@ func main() {
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(200, "index.html", nil)
 	})
-	router.Run(":" + port)
+	if(port == ""){
+		router.Run(":" + port)
+	} else{
+		router.Run(":8080")
+	}
 }
