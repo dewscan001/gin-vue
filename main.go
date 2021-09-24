@@ -12,7 +12,9 @@ func main() {
 	router.LoadHTMLFiles("index.html")
 	router.StaticFile("/style.css", "style.css")
 	router.GET("/", func(c *gin.Context) {
-		c.HTML(200, "index.html", nil)
+		go func() {
+			c.HTML(200, "index.html", nil)
+		}()
 	})
 	if(port == ""){
 		router.Run(":" + port)
