@@ -1,14 +1,13 @@
 package main
 
-import (
-	"fmt"
-	"net/http"
-)
+import "github.com/gin-gonic/gin"
 
 func main() {
-	err := http.ListenAndServe(":8080", http.FileServer(http.Dir("./")))
-	if err != nil {
-		fmt.Println("Failed to start server", err)
-		return
-	}
+	router := gin.Default()
+	router.LoadHTMLFiles("index.html")
+	router.StaticFile("/style.css", "style.css")
+	router.GET("/", func(c *gin.Context) {
+		c.HTML(200, "index.html", nil)
+	})
+	router.Run(":8080")
 }
