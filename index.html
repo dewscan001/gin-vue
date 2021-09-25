@@ -1,166 +1,41 @@
 <html>  
     <head>
         <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+        <meta name="description" content="tic=tac-toe-gin-vue by Nawin Boonradsuwan">
+        <meta name="theme-color" content="#000000">
         <title>Tic Tac Toe : VueJS&Golang</title>
-        <style>
-            td{
-                width:100px;
-                height:100px;
-            }
-            table{
-                margin: auto;
-            }
-            .containery{
-                max-width: 540px;
-                margin:auto;
-            }
-            button{
-                border: 0;
-                width: 100%;
-                height: 100%;
-            }
-        </style>
+        <link rel="stylesheet" href="/static/style.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.2/vue.global.prod.min.js"
             integrity="sha512-7P7lFBUn6CRr4WuUbulphJOYHezTCkAzX3VFxJCDquccViigTgSkKFEzUga5pehRCXrX9nj44pJuZ8l8TUnUkg=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="/static/vue.js" async></script>
+
     </head>
     <body>
         <div class="container" id="app">
             <h1 style="text-align: center;">Tic Tac Toe</h1>
             <table>
                 <tr>
-                    <td :style="(turn == 'X' ? 'background-color: aqua;' : '') + ' border-radius: 10px;'">
-                        <h3 style="text-align: center;">X (You)</h1>
+                    <td :style="(your_turn == 'X' ? 'background-color: aqua;' : '') + ' border-radius: 10px;'">
+                        <button @click="your_turn='X'" :disabled="your_turn != ''" :style="your_turn == '' ? 'cursor: pointer;' : ''"><h3 style="text-align: center;">X</h1></button>
                     </td>
-                    <td :style="(turn == 'O' ? 'background-color: aqua;' : '') + ' border-radius: 10px;'">
-                        <h3 style="text-align: center;">O (AI)</h1>
+                    <td :style="(your_turn == 'O' ? 'background-color: aqua;' : '') + ' border-radius: 10px;'">
+                        <button @click="your_turn='O'" :disabled="your_turn != ''" :style="your_turn == '' ? 'cursor: pointer;' : ''"><h3 style="text-align: center;">O</h1></button>
                     </td>
                 </tr>
             </table>
             <table border="1">
                 <tr v-for="(row,key) in board" :key="key">
-                    <td v-for="(col,key1) in row" :key="key+'_'+key1">
-                        <button v-text="col" @click="manual_click(key, key1)" style="font-size: large;"></button>
+                    <td v-for="(col,key1) in row" :key="key+'_'+key1" :style="check_win_index_list(key, key1) ? 'background-color:red;' : ''">
+                        <button v-text="col" @click="manual_click(key, key1)" :style="your_turn != '' && col == '' ? 'cursor: pointer;' : '' + ' font-size: large; background-color:transparent'"></button>
                     </td>
                 </tr>
             </table>
-            <div style="width:500px; margin:auto; height:100px;">
-                <button @click="reset_board" v-if="board_over">Reset Board</button>
+            <div style="width:200px; margin:auto; height:70px;" v-if="board_over">
+                <button @click="reset_board" style="cursor: pointer; background-color: grey; color:white;"><h3>Reset Board</h3></button>
             </div>
         </div>
-        <script>
-            const app = Vue.createApp({
-                data() {
-                    return {
-                        board: [
-                            ['', '', ''],
-                            ['', '', ''],
-                            ['', '', ''],
-                        ],
-                        turn : 'X',
-                        gameover : false,
-                        have_value : 0,
-                        board_over : false
-                    }
-                },
-                methods:{
-                    // change_turn(){
-                    //     this.turn = this.turn == 'X' ? 'O' : 'X' 
-                    // },
-                    manual_click(row, col){
-                        if(this.board[row][col] == '' && this.turn == 'X'){
-                            this.board[row][col] = 'X'
-                            this.check_game()
-                        }
-                    },
-                    check_game(){
-                        if (this.board[0][0] == this.board[0][1] && this.board[0][1] == this.board[0][2] && this.board[0][2] == this.board[0][0] && this.board[0][0] == this.turn) {
-                            this.gameover = true
-                        }
-                        if (this.board[1][0] == this.board[1][1] && this.board[1][1] == this.board[1][2] && this.board[1][2] == this.board[1][0] && this.board[1][0] == this.turn) {
-                            this.gameover = true
-                        }
-                        if (this.board[2][0] == this.board[2][1] && this.board[2][1] == this.board[2][2] && this.board[2][2] == this.board[2][0] && this.board[2][0] == this.turn) {
-                            this.gameover = true
-                        }
-                        if (this.board[0][0] == this.board[1][0] && this.board[1][0] == this.board[2][0] && this.board[2][0] == this.board[0][0] && this.board[0][0] == this.turn) {
-                            this.gameover = true
-                        }
-                        if (this.board[0][1] == this.board[1][1] && this.board[1][1] == this.board[2][1] && this.board[2][1] == this.board[0][1] && this.board[0][1] == this.turn) {
-                            this.gameover = true
-                        }
-                        if (this.board[0][2] == this.board[1][2] && this.board[1][2] == this.board[2][2] && this.board[2][2] == this.board[0][2] && this.board[0][2] == this.turn) {
-                            this.gameover = true
-                        }
-                        if (this.board[0][0] == this.board[1][1] && this.board[1][1] == this.board[2][2] && this.board[2][2] == this.board[0][0] && this.board[0][0] == this.turn) {
-                            this.gameover = true
-                        }
-                        if (this.board[0][2] == this.board[1][1] && this.board[1][1] == this.board[2][0] && this.board[2][0] == this.board[0][2] && this.board[0][2] == this.turn) {
-                            this.gameover = true
-                        }
-
-                        if (!this.gameover) {
-                            for (let i = 0; i < 3; i++) {
-                                for (let j = 0; j < 3; j++) {
-                                    if (this.board[i][j]) {
-                                        this.have_value++
-                                    }
-                                    else {
-                                        this.have_value--
-                                    }
-                                }
-                            }
-                            if (this.have_value == 9) {
-                                alert('DRAW!!')
-                                this.turn = 'X'
-                                this.have_value = 0
-                                this.board_over = true
-                            }
-                            else{
-                                this.turn = this.turn == 'X' ? 'O' : 'X'
-                            }
-                        }
-                    },
-                    reset_board(){
-                        this.board = [
-                            ['', '', ''],
-                            ['', '', ''],
-                            ['', '', '']
-                        ]
-                        this.board_over = false
-                    }
-                },
-                watch:{
-                    gameover(){
-                        if (this.gameover) {
-                            alert(this.turn + ' WIN!!')
-                            this.turn = 'X'
-                            this.gameover = false
-                            this.have_value = 0
-                            this.board_over = true
-                        }
-                    },
-                    turn(){
-                        let random_temp = []
-                        if(this.turn == 'O'){
-                            for(let i=0; i<3; i++){
-                                for(let j=0; j<3; j++){
-                                    if(this.board[i][j] == ''){
-                                        random_temp.push({'x':i, 'y':j})
-                                    }
-                                }
-                            }
-                            index_random = random_temp[Math.floor(Math.random() * random_temp.length)]
-                            this.board[index_random["x"]][index_random["y"]] = 'O'
-                            this.check_game()
-                        }
-                    },
-                    board_over() {
-                        this.reset_board()
-                    }
-                }
-            })
-            app.mount('#app');
-        </script>
+        
     </body>
 </html>  
