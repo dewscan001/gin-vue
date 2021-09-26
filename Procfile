@@ -1,1 +1,1 @@
-web: go run gin-vue
+web: bin/gin-vue
