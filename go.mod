@@ -1,4 +1,4 @@
-module tic-tac-toe-gin-vue
+module gin-vue
 
 go 1.15
 

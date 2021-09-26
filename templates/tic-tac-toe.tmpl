@@ -1,0 +1,34 @@
+{{ define "tic-tac-toe.tmpl" }}
+
+    {{ template "header.tmpl" }}
+    <title>Tic Tac Toe : VueJS&Golang</title>
+    <link rel="stylesheet" href="/static/tic-tac-toe.css">
+    <script src="/static/tic-tac-toe.js" async></script>
+    <body>
+        <div class="container" id="app">
+            <h1 style="text-align: center;">Tic Tac Toe</h1>
+            <table>
+                <tr>
+                    <td :style="(your_turn == 'X' ? 'background-color: aqua;' : '') + ' border-radius: 10px;'">
+                        <button @click="your_turn='X'" :disabled="your_turn != ''" :style="your_turn == '' ? 'cursor: pointer;' : ''"><h3 style="text-align: center;">X</h1></button>
+                    </td>
+                    <td :style="(your_turn == 'O' ? 'background-color: aqua;' : '') + ' border-radius: 10px;'">
+                        <button @click="your_turn='O'" :disabled="your_turn != ''" :style="your_turn == '' ? 'cursor: pointer;' : ''"><h3 style="text-align: center;">O</h1></button>
+                    </td>
+                </tr>
+            </table>
+            <table border="1">
+                <tr v-for="(row,key) in board" :key="key">
+                    <td v-for="(col,key1) in row" :key="key+'_'+key1" :style="check_win_index_list(key, key1) ? 'background-color:red;' : ''">
+                        <button v-text="col" @click="manual_click(key, key1)" :style="your_turn != '' && col == '' ? 'cursor: pointer;' : '' + ' font-size: large; background-color:transparent'"></button>
+                    </td>
+                </tr>
+            </table>
+            <div style="width:200px; margin:auto; height:70px;" v-if="board_over">
+                <button @click="reset_board" style="cursor: pointer; background-color: grey; color:white;"><h3>Reset Board</h3></button>
+            </div>
+        </div>
+        
+    </body>
+</html>  
+{{end}}

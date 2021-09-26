@@ -1,1 +1,1 @@
-web: bin/tic-tac-toe-gin-vue
+web: go run gin-vue

@@ -1,0 +1,42 @@
+{{ define "index.tmpl" }}
+    <title>Freetime with Gin&Vue</title>
+    <style>
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 1);
+            transition: 1s;
+            background-color: rgba(0, 0, 0, 0.219);
+            border-radius: 20px;
+            margin:auto; 
+            width:50%; 
+            text-align: center;
+            margin-top: 50px;
+        }
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+        .container {
+            padding: 2px 16px;
+        }
+        a{
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="container">
+            <h1>Freetime with Gin&Vue</h1>
+            <h3>Frontend : Vue3</h3>
+            <h3>Backend : Gin</h3>
+            <a href="https://dewscan001.herokuapp.com/portfolio">
+                <h3>Create by Nawin Boonradsuwan</h2>
+            </a>
+            <hr>
+            <a href="/tic-tac-toe">
+                <h2>Tic Tac Toe</h2>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
+{{end}}
