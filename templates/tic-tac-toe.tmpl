@@ -2,7 +2,16 @@
 
     {{ template "header.tmpl" }}
     <title>Tic Tac Toe : VueJS&Golang</title>
+    <link rel="preload" href="/static/tic-tac-toe.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.2/vue.global.prod.min.js"
+        integrity="sha512-7P7lFBUn6CRr4WuUbulphJOYHezTCkAzX3VFxJCDquccViigTgSkKFEzUga5pehRCXrX9nj44pJuZ8l8TUnUkg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" as="script">
+
     <link rel="stylesheet" href="/static/tic-tac-toe.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.2/vue.global.prod.min.js"
+        integrity="sha512-7P7lFBUn6CRr4WuUbulphJOYHezTCkAzX3VFxJCDquccViigTgSkKFEzUga5pehRCXrX9nj44pJuZ8l8TUnUkg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/static/tic-tac-toe.js" async></script>
     <body>
         <div class="container" id="app">
