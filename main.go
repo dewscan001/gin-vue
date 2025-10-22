@@ -27,6 +27,7 @@ func main() {
 	})
 
 	tic_tac_toe_router(router.Group("/tic-tac-toe"))
+	test(router.Group("/test"))
 
 	if port != ""{
 		gin.SetMode(gin.ReleaseMode)

@@ -33,7 +33,7 @@ func tic_tac_toe_router(tic_tac_toe *gin.RouterGroup){
 
 		for index1, value1 := range board {
 			for index2, value2 := range value1 {
-				if value2 == ""{
+				if value2 == "" {
 					new_point_list = append(new_point_list, point_type{x: index1, y:index2})
 				}
 			}
